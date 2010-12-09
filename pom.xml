@@ -2,8 +2,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>org.freecompany.redline</groupId>
-	<artifactId>redline</artifactId>
-	<version>1.1.6</version>
+	<artifactId>org.argeo.dep.org.freecompany.redline</artifactId>
+	<version>1.1.6.0001</version>
 	<packaging>jar</packaging>
 	<name>Redline</name> 
 	<description>Redline is a pure Java library for manipulating RPM Package Manager packages.</description>
@@ -69,6 +69,38 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>target/classes/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<manifestLocation>target/classes/META-INF</manifestLocation>
+					<instructions>
+						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Import-Package>org.apache.tools.ant.*;resolution:=optional,*</Import-Package>
+						<Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+					</instructions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
@@ -85,6 +117,7 @@
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
 			<version>1.7.0</version>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
